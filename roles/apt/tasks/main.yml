@@ -1,0 +1,8 @@
+---
+- name: Install package
+  apt:
+    name: "{{ your_package_name }}"
+    state: present
+  notify: Update apt cache
+  become: true
+  

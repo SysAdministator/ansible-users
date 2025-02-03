@@ -1,0 +1,9 @@
+---
+- name: Обновление кеша apt
+  apt:
+    update_cache: yes
+  become: yes
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes

@@ -1,0 +1,11 @@
+[Unit]
+Description=Mount Network Share
+After=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/mount -t cifs -o username={{ user_win }},password={{ passw_user_win }} //{{ smb_ser_addr }}/SharedFolder /mnt/share
+
+[Install]
+WantedBy=multi-user.target

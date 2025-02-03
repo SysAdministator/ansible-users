@@ -1,0 +1,34 @@
+---
+- name: Установка утилиты для SMB cifs-utils
+  apt:
+    name: cifs-utils
+    state: present
+  notify: Обновление кеша apt
+  become: true
+
+- name: Создание точки монтирования SMB
+  file:
+    path: /mnt/share
+    state: directory
+  become: true
+
+- name: Создание службы для монтирования шары
+  template:
+    src: mount_service.service.j2
+    dest: /etc/systemd/system/mount_service.service
+  notify: Reload systemd
+  become: true
+
+- name: Запуск службы и включение автозапуска
+  systemd:
+    name: mount_service
+    enabled: yes
+    state: started
+  notify: Reload systemd
+  become: true
+
+- name: Создание ярлыка на рабочем столе пользователей
+  template:
+    src: share.desktop.j2
+    dest: /usr/share/applications/share.desktop
+  become: true
